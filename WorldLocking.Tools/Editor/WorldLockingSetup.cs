@@ -36,7 +36,7 @@ namespace Microsoft.MixedReality.WorldLocking.Tools
         private static Transform CheckWorldLockingRoot()
         {
             Transform root = null;
-            var wltContext = GameObject.FindObjectOfType<WorldLockingContext>();
+            var wltContext = GameObject.FindAnyObjectByType<WorldLockingContext>();
             if (wltContext != null)
             {
                 root = wltContext.transform.parent;
@@ -90,7 +90,7 @@ namespace Microsoft.MixedReality.WorldLocking.Tools
         private static WorldLockingContext CheckWorldLockingManager(Transform worldLockingRoot)
         {
             // Look for a WorldLockingContext component in the scene. 
-            var wltContext = GameObject.FindObjectOfType<WorldLockingContext>();
+            var wltContext = GameObject.FindAnyObjectByType<WorldLockingContext>();
 
             // If not found, instantiate the WorldLockingManager prefab, and attach to WorldLocking root
             if (wltContext == null)
@@ -149,8 +149,8 @@ namespace Microsoft.MixedReality.WorldLocking.Tools
         private static bool ConfiguredForARF(WorldLockingContext context)
         {
 #if WLT_ARFOUNDATION_PRESENT
-            ARSession session = GameObject.FindObjectOfType<ARSession>();
-            XROrigin sessionOrigin = GameObject.FindObjectOfType<XROrigin>();
+            ARSession session = GameObject.FindAnyObjectByType<ARSession>();
+            XROrigin sessionOrigin = GameObject.FindAnyObjectByType<XROrigin>();
 
             if (session != null && sessionOrigin == null)
             {
@@ -222,7 +222,7 @@ namespace Microsoft.MixedReality.WorldLocking.Tools
         /// <param name="wltRoot">The root object to attach the visualization to.</param>
         private static void AddAnchorVisualizer(Transform wltRoot)
         {
-            AnchorGraphVisual anchorVisual = GameObject.FindObjectOfType<AnchorGraphVisual>();
+            AnchorGraphVisual anchorVisual = GameObject.FindAnyObjectByType<AnchorGraphVisual>();
             if (anchorVisual == null)
             {
                 GameObject anchorVisualObject = InstantiatePrefab("WorldLocking.Tools/Prefabs", "AnchorGraphVisual");
@@ -277,7 +277,7 @@ namespace Microsoft.MixedReality.WorldLocking.Tools
         /// <param name="visualizers">Currently existing visualizers.</param>
         private static void AddSubtreeSpacePinVisualizers(Transform wltRoot, SpacePinMeshVisualizer[] visualizers)
         {
-            AlignSubtree[] subtrees = GameObject.FindObjectsOfType<AlignSubtree>();
+            AlignSubtree[] subtrees = GameObject.FindObjectsByType<AlignSubtree>(FindObjectsSortMode.None);
 
             foreach (var subtree in subtrees)
             {
@@ -308,7 +308,7 @@ namespace Microsoft.MixedReality.WorldLocking.Tools
         /// <param name="wltRoot">Parent object to attach any created visualizers to.</param>
         private static void AddSpacePinVisualizers(Transform wltRoot)
         {
-            SpacePinMeshVisualizer[] visualizers = GameObject.FindObjectsOfType<SpacePinMeshVisualizer>();
+            SpacePinMeshVisualizer[] visualizers = GameObject.FindObjectsByType<SpacePinMeshVisualizer>(FindObjectsSortMode.None);
 
             AddGlobalSpacePinVisualizer(wltRoot, visualizers);
 
@@ -339,13 +339,13 @@ namespace Microsoft.MixedReality.WorldLocking.Tools
         [MenuItem("Mixed Reality/World Locking Tools/Remove development visualizers", priority = setupPriority)]
         private static void RemoveWorldLockingVisualisers()
         {
-            AnchorGraphVisual[] anchorVisuals = GameObject.FindObjectsOfType<AnchorGraphVisual>();
+            AnchorGraphVisual[] anchorVisuals = GameObject.FindObjectsByType<AnchorGraphVisual>(FindObjectsSortMode.None);
             foreach( var vis in anchorVisuals)
             {
                 GameObject.DestroyImmediate(vis.gameObject);
             }
 
-            SpacePinMeshVisualizer[] visualizers = GameObject.FindObjectsOfType<SpacePinMeshVisualizer>();
+            SpacePinMeshVisualizer[] visualizers = GameObject.FindObjectsByType<SpacePinMeshVisualizer>(FindObjectsSortMode.None);
             foreach(var vis in visualizers)
             {
                 GameObject.DestroyImmediate(vis.gameObject);

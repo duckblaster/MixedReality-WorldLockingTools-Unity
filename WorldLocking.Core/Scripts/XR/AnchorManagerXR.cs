@@ -129,7 +129,7 @@ namespace Microsoft.MixedReality.WorldLocking.Core
         private static XRAnchorSubsystem FindAnchorManager()
         {
             List<XRAnchorSubsystem> anchorSubsystems = new List<XRAnchorSubsystem>();
-            SubsystemManager.GetInstances(anchorSubsystems);
+            SubsystemManager.GetSubsystems(anchorSubsystems);
             DebugLogSetup($"Found {anchorSubsystems.Count} anchor subsystems.");
             XRAnchorSubsystem activeSubsystem = null;
             int numFound = 0;
@@ -173,7 +173,7 @@ namespace Microsoft.MixedReality.WorldLocking.Core
         private static XRSessionSubsystem FindSessionSubsystem()
         {
             List<XRSessionSubsystem> sessionSubsystems = new List<XRSessionSubsystem>();
-            SubsystemManager.GetInstances(sessionSubsystems);
+            SubsystemManager.GetSubsystems(sessionSubsystems);
             DebugLogSetup($"Found {sessionSubsystems.Count} session subsystems");
             XRSessionSubsystem activeSession = null;
             int numFound = 0;
